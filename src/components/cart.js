@@ -10,8 +10,10 @@ class Cart extends Component {
     super(props);
     this.state = {};
   }
+  submit = (values) => {
+    console.log(values);
+  }
   render() {
-    console.log(this.props)
     const cartList = this.props.cart.map((item, idx) => {
       return <li key={idx}>{item}</li>;
     });
@@ -22,7 +24,7 @@ class Cart extends Component {
         <ol>
           {cartList}
         </ol>
-        <ContactForm />
+        <ContactForm onSubmit={this.submit} />
       </div>
     )
   }
