@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as cartActions from '../actions/cart';
 import Shelf from './shelf';
+import ContactForm from './ContactForm';
 
 class Cart extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class Cart extends Component {
         <ol>
           {cartList}
         </ol>
+        <ContactForm />
       </div>
     )
   }
