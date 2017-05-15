@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
+import { load as loadAccount } from '../reducers/account';
 
 const email = value => {
   value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ?
@@ -20,11 +22,18 @@ const renderField = ({ input, label, type, meta: { touched, error, warning } }) 
   </div>
 )
 
+const data = {
+  name: 'Scott Walker',
+  email: 'scott@walker.com',
+  contactNumber: '07975 144644'
+}
+
 class ContactForm extends Component {
   render() {
-    const { handleSubmit, pristine, reset, submitting } = this.props;
+    const { handleSubmit, pristine, load, reset, submitting } = this.props;
     return (
       <form onSubmit={handleSubmit}>
+        <button type="button" onClick={() => load(data)}>Load Default Profile</button>
         <div>
           <Field name="name"
             component={renderField}
@@ -48,7 +57,7 @@ class ContactForm extends Component {
             name="contactNumber"
             component={renderField}
             label="contactNumber"
-            type="number"/>
+            type="text"/>
         </div>
         <button type="submit" disabled={submitting}>Submit</button>
         <button type="button" disabled={pristine || submitting} onClick={reset}>Values</button>
@@ -61,5 +70,21 @@ class ContactForm extends Component {
 ContactForm = reduxForm({
   form: 'Banana Form' // a unique name for this form
 })(ContactForm);
+
+const mapStateToProps = state => {
+  return {
+    initialValues: state.account.data,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    load: loadAccount,
+  }
+}
+ContactForm = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ContactForm)
 
 export default ContactForm;
